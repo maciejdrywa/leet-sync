@@ -1,4 +1,4 @@
-import type {GithubUser} from "../auth.types.ts";
+import type {GithubUser} from "./githubAuth.types.ts";
 
 export async function getGithubUser(accessToken: string): Promise<GithubUser> {
     if (!accessToken) {

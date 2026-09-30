@@ -1,5 +1,5 @@
 import type {AuthState} from "../auth.types.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const initialAuthState = {
     github: null
@@ -7,9 +7,42 @@ const initialAuthState = {
 
 export function useAuthState() {
     const [authState, setAuthState] = useState<AuthState>(initialAuthState);
-    const [authLoading] = useState(true);
+    const [authLoading, setAuthLoading] = useState(true);
 
     const [authError, setAuthError] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function loadAuthState(): Promise<void> {
+            try {
+                setAuthLoading(true);
+                setAuthError(null);
+
+                const response = await chrome.runtime.sendMessage({
+                    type: "LOAD_AUTH_STATE"
+                })
+
+                if (!response.ok) {
+                    setAuthError(response.error);
+                    return;
+                }
+
+                setAuthState(response.data);
+            }
+            catch (error) {
+                setAuthError(
+                    error instanceof Error
+                        ? error.message
+                        : "Failed to load auth state"
+                );
+            }
+            finally {
+                setAuthLoading(false);
+            }
+        }
+
+        void loadAuthState();
+    }, [])
+
 
     async function githubLogin() {
         try {
@@ -19,7 +52,7 @@ export function useAuthState() {
                 type: "GITHUB_LOGIN"
             })
 
-            if (response.ok !== true) {
+            if (!response.ok) {
                 setAuthError(response.error);
                 return;
             }
@@ -40,9 +73,19 @@ export function useAuthState() {
 
     async function logout() {
         try {
+            setAuthLoading(true);
             setAuthError(null);
 
+            const response = await chrome.runtime.sendMessage({
+                type: "LOGOUT"
+            })
 
+            if (!response.ok) {
+                setAuthError(response.error);
+                return;
+            }
+
+            setAuthState(initialAuthState);
         }
         catch (error) {
             setAuthError(
@@ -50,6 +93,9 @@ export function useAuthState() {
                     ? error.message
                     : "Failed to logout"
             )
+        }
+        finally {
+            setAuthLoading(false);
         }
     }
 

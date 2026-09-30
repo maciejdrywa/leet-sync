@@ -1,7 +1,9 @@
 import {generateCodeChallenge, generateCodeVerifier} from "../utils/pkce.utils.ts";
 import {GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} from "../../../shared/constants/constants.ts";
-import type {GithubSession, GithubTokenResponse, GithubUser} from "../auth.types.ts";
 import {getGithubUser} from "./githubUser.service.ts";
+import type {GithubSession, GithubTokenResponse} from "./githubAuth.types.ts";
+import {saveGithubSession} from "./githubSesion.storage.ts";
+import {buildGithubSession} from "./githubSession.service.ts";
 
 
 export async function startGithubLogin(): Promise<GithubSession> {
@@ -48,6 +50,8 @@ export async function startGithubLogin(): Promise<GithubSession> {
 
     const githubSession = buildGithubSession(tokenData, userData);
 
+    await saveGithubSession(githubSession);
+
     return githubSession;
 }
 
@@ -88,15 +92,3 @@ async function exchangeCodeForTokenData(code: string, verifier: string): Promise
     }
 }
 
-function buildGithubSession(tokenData: GithubTokenResponse, userData: GithubUser): GithubSession {
-    return {
-        accessToken: tokenData.accessToken,
-        expiresAt: tokenData.expiresIn,
-        refreshToken: tokenData.refreshToken,
-        refreshTokenExpiresAt: tokenData.refreshTokenExpiresIn,
-        scope: tokenData.scope,
-        tokenType: tokenData.tokenType,
-
-        user: userData
-    }
-}

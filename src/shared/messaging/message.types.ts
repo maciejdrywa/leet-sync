@@ -1,6 +1,12 @@
 export type BackgroundRequest =
     {
+       type: "LOAD_AUTH_STATE"
+    } |
+    {
         type: "GITHUB_LOGIN"
+    } |
+    {
+        type: "LOGOUT"
     };
 
 

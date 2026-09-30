@@ -4,7 +4,7 @@
   "description": "Tool to sync LeetCode solution with your GitHub account",
   "version": "1.0",
 
-  "permissions": ["identity"],
+  "permissions": ["storage", "identity"],
 
   "host_permissions": [
     "https://github.com/*",

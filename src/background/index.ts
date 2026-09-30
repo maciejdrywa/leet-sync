@@ -24,7 +24,9 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
 
 async function handleRequest(request: BackgroundRequest) {
     switch (request.type) {
+        case "LOAD_AUTH_STATE":
         case "GITHUB_LOGIN":
+        case "LOGOUT":
             return await authHandler(request);
     }
 }
