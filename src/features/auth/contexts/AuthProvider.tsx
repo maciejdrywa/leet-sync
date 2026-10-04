@@ -8,6 +8,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
         authLoading,
         authError,
         githubLogin,
+        leetcodeLogin,
         logout
     } = useAuthState();
 
@@ -17,6 +18,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
             loading: authLoading,
             error: authError,
             githubLogin,
+            leetcodeLogin,
             logout
         }}>
             {children}

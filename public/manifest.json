@@ -4,11 +4,17 @@
   "description": "Tool to sync LeetCode solution with your GitHub account",
   "version": "1.0",
 
-  "permissions": ["storage", "identity"],
+  "permissions": [
+    "storage",
+    "identity",
+    "tabs",
+    "cookies"
+  ],
 
   "host_permissions": [
     "https://github.com/*",
-    "https://api.github.com/*"
+    "https://api.github.com/*",
+    "https://leetcode.com/*"
   ],
 
   "action": {

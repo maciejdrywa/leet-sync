@@ -1,8 +1,9 @@
-import type {AuthState} from "../auth.types.ts";
 import {useEffect, useState} from "react";
+import type {AuthState} from "../auth.types.ts";
 
 const initialAuthState = {
-    github: null
+    github: null,
+    leetcode: null
 }
 
 export function useAuthState() {
@@ -71,6 +72,32 @@ export function useAuthState() {
         }
     }
 
+    async function leetcodeLogin() {
+        try {
+            setAuthError(null);
+
+            const response = await chrome.runtime.sendMessage({
+                type: "LEETCODE_LOGIN",
+            })
+
+            if (!response.ok) {
+                setAuthError(response.error)
+            }
+
+            setAuthState(prev => ({
+                ...prev,
+                leetcode: response.data
+            }));
+        }
+        catch (error) {
+            setAuthError(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to login with LeetCode account"
+            )
+        }
+    }
+
     async function logout() {
         try {
             setAuthLoading(true);
@@ -104,6 +131,7 @@ export function useAuthState() {
         authLoading,
         authError,
         githubLogin,
+        leetcodeLogin,
         logout
     }
 }

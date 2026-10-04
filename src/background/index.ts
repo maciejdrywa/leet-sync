@@ -26,6 +26,7 @@ async function handleRequest(request: BackgroundRequest) {
     switch (request.type) {
         case "LOAD_AUTH_STATE":
         case "GITHUB_LOGIN":
+        case "LEETCODE_LOGIN":
         case "LOGOUT":
             return await authHandler(request);
     }

@@ -6,6 +6,9 @@ export type BackgroundRequest =
         type: "GITHUB_LOGIN"
     } |
     {
+       type: "LEETCODE_LOGIN"
+    } |
+    {
         type: "LOGOUT"
     };
 
