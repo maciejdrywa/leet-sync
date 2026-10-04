@@ -21,7 +21,7 @@ export async function startGithubLogin(): Promise<GithubSession> {
     authUrl.searchParams.set("state", state);
     authUrl.searchParams.set("code_challenge", codeChallenge);
     authUrl.searchParams.set("code_challenge_method", "S256");
-    authUrl.searchParams.set("allow_signup", "true");
+    authUrl.searchParams.set("prompt", "select_account");
 
     const responseUrl = await chrome.identity.launchWebAuthFlow({
         url: authUrl.toString(),
