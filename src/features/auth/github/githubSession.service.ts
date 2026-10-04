@@ -1,6 +1,5 @@
 import type {GithubSession, GithubTokenResponse, GithubUser} from "./githubAuth.types.ts";
-import type {AuthState} from "../auth.types.ts";
-import {getGithubSession} from "./githubSesion.storage.ts";
+
 
 export function buildGithubSession(tokenData: GithubTokenResponse, userData: GithubUser): GithubSession {
     return {
@@ -12,13 +11,5 @@ export function buildGithubSession(tokenData: GithubTokenResponse, userData: Git
         tokenType: tokenData.tokenType,
 
         user: userData
-    }
-}
-
-export async function loadSavedAuthState(): Promise<AuthState> {
-    const github = await getGithubSession();
-
-    return {
-        github: github
     }
 }
