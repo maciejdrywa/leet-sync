@@ -82,6 +82,7 @@ export function useAuthState() {
 
             if (!response.ok) {
                 setAuthError(response.error)
+                return;
             }
 
             setAuthState(prev => ({

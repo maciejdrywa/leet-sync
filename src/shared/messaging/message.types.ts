@@ -10,6 +10,9 @@ export type BackgroundRequest =
     } |
     {
         type: "LOGOUT"
+    } |
+    {
+        type: "FETCH_GITHUB_REPOSITORIES"
     };
 
 

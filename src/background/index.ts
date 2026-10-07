@@ -1,5 +1,6 @@
-import type {BackgroundRequest} from "../shared/messaging/message.types.ts";
+import type {BackgroundRequest, BackgroundResponse} from "../shared/messaging/message.types.ts";
 import {authHandler} from "./handlers/authHandler.ts";
+import {githubHandler} from "./handlers/githubHandler.ts";
 
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -22,12 +23,14 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
 })
 
 
-async function handleRequest(request: BackgroundRequest) {
+async function handleRequest(request: BackgroundRequest): Promise<BackgroundResponse<unknown>> {
     switch (request.type) {
         case "LOAD_AUTH_STATE":
         case "GITHUB_LOGIN":
         case "LEETCODE_LOGIN":
         case "LOGOUT":
             return await authHandler(request);
+        case "FETCH_GITHUB_REPOSITORIES":
+            return await githubHandler(request);
     }
 }

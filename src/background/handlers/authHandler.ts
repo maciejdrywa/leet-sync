@@ -3,6 +3,7 @@ import {startGithubLogin} from "../../features/auth/github/githubAuth.service.ts
 import {loadSavedAuthState, logoutAll} from "../../features/auth/auth.service.ts";
 import {startLeetCodeLogin} from "../../features/auth/leetcode/leetcodeAuth.service.ts";
 
+
 export async function authHandler(request: BackgroundRequest): Promise<BackgroundResponse<unknown>> {
     switch (request.type) {
         case "LOAD_AUTH_STATE": {
@@ -36,6 +37,9 @@ export async function authHandler(request: BackgroundRequest): Promise<Backgroun
                 ok: true,
                 data: null
             }
+        }
+        default: {
+            throw new Error(`Unsupported auth request: ${request.type}`);
         }
     }
 }
