@@ -1,34 +1,22 @@
-import {Button} from "../shared/components/ui/button.tsx";
-import {useAuth} from "../features/auth/contexts/useAuth.ts";
-import {useRepositories} from "../features/repositories/contexts/useRepositories.ts";
-import MyCombobox from "@/shared/components/MyCombobox.tsx";
+import PopupLayout from "@/popup/layouts/PopupLayout.tsx";
+import {Dashboard} from "@/popup/views/Dashboard.tsx";
+import {useAuth} from "@/features/auth/contexts/useAuth.ts";
+import OnboardingView from "@/popup/onboarding/OnboardingView.tsx";
+import {useRepositories} from "@/features/repositories/contexts/useRepositories.ts";
+
 
 function App() {
-    const {authState, authError, githubLogin, leetcodeLogin, logout} = useAuth();
-    const {
-        githubRepositories,
-        getGithubRepositories,
 
-        selectedRepository,
-        setSelectedRepository
-    } = useRepositories();
+    const { authState } = useAuth();
+    const { selectedRepository } = useRepositories();
 
+    const onboardingComplete = authState.github && authState.leetcode && selectedRepository;
 
-  return (
-      <div className="flex flex-col w-90 h-100 items-start justify-center">
-          Hello world
-          <Button variant="default" size="lg" onClick={githubLogin}>GitHub login</Button>
-          <Button variant="default" size="lg" onClick={leetcodeLogin}>LeetCode login</Button>
-          <Button variant="default" size="lg" onClick={getGithubRepositories}>Get repos</Button>
-          <Button variant="default" size="lg" onClick={logout}>Logout</Button>
-          {JSON.stringify(authState)}
-
-
-          <MyCombobox repositories={githubRepositories} value={selectedRepository ? selectedRepository.name : ""} onValueChange={setSelectedRepository}/>
-          <p>{selectedRepository?.id} {selectedRepository?.name} {selectedRepository?.fullName}</p>
-          {authError}
-      </div>
-  )
+    return (
+        <PopupLayout>
+            {!onboardingComplete ? <OnboardingView /> : <Dashboard/>}
+        </PopupLayout>
+    )
 }
 
 export default App

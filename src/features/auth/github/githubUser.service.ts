@@ -21,7 +21,8 @@ export async function getGithubUser(accessToken: string): Promise<GithubUser> {
 
     return {
         id: json.id,
-        name: json.login,
+        login: json.login,
+        name: json.name,
         email: json.email,
         avatarUrl: json.avatar_url,
     }

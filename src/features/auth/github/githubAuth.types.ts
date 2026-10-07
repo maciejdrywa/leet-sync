@@ -20,6 +20,7 @@ export type GithubTokenResponse = {
 
 export type GithubUser = {
     id: number;
+    login: string;
     name: string;
     email: string;
     avatarUrl: string

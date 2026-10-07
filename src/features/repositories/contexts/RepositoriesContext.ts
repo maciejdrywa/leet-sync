@@ -5,12 +5,12 @@ type RepositoriesContextType = {
     githubRepositories: GithubRepository[];
     githubRepositoriesLoading: boolean;
     githubRepositoriesError: string | null;
-    getGithubRepositories: () => void;
+    getGithubRepositories: () => Promise<void>;
 
     selectedRepository: GithubRepository | null;
     selectedRepositoryLoading: boolean;
     selectedRepositoryError: string | null;
-    setSelectedRepository: (selectedRepository: GithubRepository) => void;
+    setSelectedRepository: (selectedRepository: GithubRepository) => Promise<void>;
 }
 
 export const RepositoriesContext = createContext<RepositoriesContextType | null>(null);

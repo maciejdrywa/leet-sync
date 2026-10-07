@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import type {GithubRepository} from "../repositories.types.ts";
 import {useAuth} from "@/features/auth/contexts/useAuth.ts";
 
@@ -8,8 +8,6 @@ export function useGithubRepositories() {
     const [error, setError] = useState<string | null>(null);
 
     const { authState, authLoading } = useAuth();
-
-
 
     useEffect(() => {
         if (authState.github || authLoading) {
@@ -24,7 +22,7 @@ export function useGithubRepositories() {
         void clearGithubRepositories();
     }, [authState.github, authLoading]);
 
-    async function getGithubRepositories() {
+    const getGithubRepositories = useCallback(async () => {
         try {
             setLoading(true);
             setError(null);
@@ -50,7 +48,7 @@ export function useGithubRepositories() {
         finally {
             setLoading(false);
         }
-    }
+    }, []);
 
     return {
         githubRepositories: repositories,
