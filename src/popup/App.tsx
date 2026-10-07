@@ -4,7 +4,7 @@ import {useRepositories} from "../features/repositories/contexts/useRepositories
 import MyCombobox from "@/shared/components/MyCombobox.tsx";
 
 function App() {
-    const {authState, error, githubLogin, leetcodeLogin, logout} = useAuth();
+    const {authState, authError, githubLogin, leetcodeLogin, logout} = useAuth();
     const {
         githubRepositories,
         getGithubRepositories,
@@ -26,7 +26,7 @@ function App() {
 
           <MyCombobox repositories={githubRepositories} value={selectedRepository ? selectedRepository.name : ""} onValueChange={setSelectedRepository}/>
           <p>{selectedRepository?.id} {selectedRepository?.name} {selectedRepository?.fullName}</p>
-          {error}
+          {authError}
       </div>
   )
 }
