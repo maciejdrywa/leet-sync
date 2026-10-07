@@ -4,8 +4,8 @@ import type {AuthState} from "../auth.types.ts";
 
 type AuthContextType = {
     authState: AuthState;
-    loading: boolean;
-    error: string | null;
+    authLoading: boolean;
+    authError: string | null;
 
     githubLogin: () => void;
     leetcodeLogin: () => void;

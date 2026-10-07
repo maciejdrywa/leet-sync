@@ -15,8 +15,8 @@ export function AuthProvider({children}: {children: ReactNode}) {
     return (
         <AuthContext.Provider value={{
             authState,
-            loading: authLoading,
-            error: authError,
+            authLoading,
+            authError,
             githubLogin,
             leetcodeLogin,
             logout
