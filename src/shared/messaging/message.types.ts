@@ -13,6 +13,9 @@ export type BackgroundRequest =
     } |
     {
         type: "FETCH_GITHUB_REPOSITORIES"
+    } |
+    {
+        type: "FETCH_LEETCODE_STATS"
     };
 
 

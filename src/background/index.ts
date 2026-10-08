@@ -1,6 +1,7 @@
 import type {BackgroundRequest, BackgroundResponse} from "../shared/messaging/message.types.ts";
 import {authHandler} from "./handlers/authHandler.ts";
 import {githubHandler} from "./handlers/githubHandler.ts";
+import {leetcodeHandler} from "@/background/handlers/leetcodeHandler.ts";
 
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -32,5 +33,7 @@ async function handleRequest(request: BackgroundRequest): Promise<BackgroundResp
             return await authHandler(request);
         case "FETCH_GITHUB_REPOSITORIES":
             return await githubHandler(request);
+        case "FETCH_LEETCODE_STATS":
+            return await leetcodeHandler(request);
     }
 }

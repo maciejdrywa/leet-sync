@@ -2,9 +2,15 @@ import {Button} from "@/shared/components/ui/button.tsx";
 import {useRepositories} from "@/features/repositories/contexts/useRepositories.ts";
 import IconRepository from "@/shared/components/icons/IconRepository.tsx";
 import DifficultyCounter from "@/popup/components/DifficultyCounter.tsx";
+import {useLeetStats} from "@/features/leetcodeStats/useLeetStats.ts";
 
 export function Dashboard() {
     const { selectedRepository } = useRepositories();
+    const { leetCodeStats } = useLeetStats();
+
+    const allLeetCodesSolved = leetCodeStats
+        ? leetCodeStats.easyCount + leetCodeStats.mediumCount + leetCodeStats.hardCount
+        : 0;
 
     return (
         <div className={"flex flex-col items-start p-4 gap-4"}>
@@ -16,16 +22,16 @@ export function Dashboard() {
                 <div className={"flex items-end justify-between pt-4 w-full"}>
                     <div className={"flex flex-col items-start shrink-0"}>
                         <div className={"flex flex-col flex-start"}>
-                            <p className={"text-app-text text-3xl font-bold"}>186</p>
+                            <p className={"text-app-text text-3xl font-bold"}>{allLeetCodesSolved}</p>
                         </div>
                         <div className={"flex flex-col items-start pt-1 "}>
                             <p className={"text-app-muted text-xs font-semibold"}>Total Saved</p>
                         </div>
                     </div>
                     <div className={"flex items-start gap-4"}>
-                        <DifficultyCounter label={"easy"} value={120} color={"green"} />
-                        <DifficultyCounter label={"med"} value={30} color={"yellow"} />
-                        <DifficultyCounter label={"hard"} value={13} color={"red"} />
+                        <DifficultyCounter label={"easy"} value={leetCodeStats?.easyCount ?? 0} color={"green"} />
+                        <DifficultyCounter label={"med"} value={leetCodeStats?.mediumCount ?? 0} color={"yellow"} />
+                        <DifficultyCounter label={"hard"} value={leetCodeStats?.hardCount ?? 0} color={"red"} />
                     </div>
                 </div>
             </div>
