@@ -2,7 +2,7 @@ import {Button} from "@/shared/components/ui/button.tsx";
 import {useRepositories} from "@/features/repositories/contexts/useRepositories.ts";
 import IconRepository from "@/shared/components/icons/IconRepository.tsx";
 import DifficultyCounter from "@/popup/components/DifficultyCounter.tsx";
-import {useLeetStats} from "@/features/leetcodeStats/useLeetStats.ts";
+import {useLeetStats} from "@/features/leetcodeStats/hooks/useLeetStats.ts";
 
 export function Dashboard() {
     const { selectedRepository } = useRepositories();

@@ -4,10 +4,11 @@ import {useAuth} from "@/features/auth/contexts/useAuth.ts";
 import OnboardingView from "@/popup/onboarding/OnboardingView.tsx";
 import {useRepositories} from "@/features/repositories/contexts/useRepositories.ts";
 import LoadingScreen from "@/popup/components/LoadingScreen.tsx";
+import useLeetStatsCleanup from "@/features/leetcodeStats/hooks/useLeetStatsCleanup.ts";
 
 
 function App() {
-
+    useLeetStatsCleanup();
     const { authState, authError, authLoading } = useAuth();
     const { selectedRepository, selectedRepositoryError, selectedRepositoryLoading } = useRepositories();
 

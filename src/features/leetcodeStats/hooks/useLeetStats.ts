@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import type {LeetCodeStats} from "@/features/leetcodeStats/leetStats.types.ts";
+import {getLeetCodeStats, saveLeetCodeStats} from "@/features/leetcodeStats/leetStats.storage.ts";
 
 export function useLeetStats() {
     const [stats, setStats] = useState<LeetCodeStats | null>(null);
@@ -12,6 +13,13 @@ export function useLeetStats() {
                 setLoading(true);
                 setError(null);
 
+                const leetcodeStats = await getLeetCodeStats();
+
+                if (leetcodeStats) {
+                    setStats(leetcodeStats);
+                    return;
+                }
+
                 const response = await chrome.runtime.sendMessage({
                     type: "FETCH_LEETCODE_STATS",
                 })
@@ -21,6 +29,7 @@ export function useLeetStats() {
                     return;
                 }
 
+                await saveLeetCodeStats(response.data);
                 setStats(response.data);
             }
             catch (error) {
@@ -37,6 +46,7 @@ export function useLeetStats() {
 
         void loadLeetCodeStats();
     }, [])
+
 
     return {
         leetCodeStats: stats,
