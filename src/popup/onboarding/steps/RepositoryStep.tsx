@@ -6,6 +6,7 @@ import type {GithubRepository} from "@/features/repositories/repositories.types.
 import OnboardingLayout from "@/popup/layouts/OnboardingLayout.tsx";
 import RepositoryComboBox from "@/popup/components/RepositoryComboBox.tsx";
 import {useRepositories} from "@/features/repositories/contexts/useRepositories.ts";
+import {Spinner} from "@/shared/components/ui/spinner.tsx";
 
 
 
@@ -17,6 +18,7 @@ export default function RepositoryStep() {
         githubRepositoriesError,
         getGithubRepositories,
         selectedRepositoryError,
+        selectedRepositoryUpdating,
         setSelectedRepository: saveSelectedRepository
     } = useRepositories();
 
@@ -51,10 +53,11 @@ export default function RepositoryStep() {
                     }
                 }}
                 className={"w-full h-13 rounded-2xl"}
-                disabled={githubRepositoriesLoading || !selectedRepository}
+                disabled={githubRepositoriesLoading || selectedRepositoryUpdating || !selectedRepository}
+                aria-busy={selectedRepositoryUpdating}
             >
                 Finish setup
-                <ArrowRight size={18} />
+                {selectedRepositoryUpdating ? <Spinner /> : <ArrowRight size={18} />}
             </Button>
 
             {error && (

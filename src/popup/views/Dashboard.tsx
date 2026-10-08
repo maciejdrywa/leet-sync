@@ -1,6 +1,7 @@
 import {Button} from "@/shared/components/ui/button.tsx";
 import {useRepositories} from "@/features/repositories/contexts/useRepositories.ts";
 import IconRepository from "@/shared/components/icons/IconRepository.tsx";
+import DifficultyCounter from "@/popup/components/DifficultyCounter.tsx";
 
 export function Dashboard() {
     const { selectedRepository } = useRepositories();
@@ -22,9 +23,9 @@ export function Dashboard() {
                         </div>
                     </div>
                     <div className={"flex items-start gap-4"}>
-                        {/*<DifficultyCounter label={"easy"} value={120} color={"green"} />*/}
-                        {/*<DifficultyCounter label={"med"} value={30} color={"yellow"} />*/}
-                        {/*<DifficultyCounter label={"hard"} value={13} color={"red"} />*/}
+                        <DifficultyCounter label={"easy"} value={120} color={"green"} />
+                        <DifficultyCounter label={"med"} value={30} color={"yellow"} />
+                        <DifficultyCounter label={"hard"} value={13} color={"red"} />
                     </div>
                 </div>
             </div>
