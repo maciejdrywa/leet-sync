@@ -15,6 +15,7 @@ export function RepositoriesProvider({ children }: { children: ReactNode }) {
     const {
         selectedRepository,
         selectedRepositoryLoading,
+        selectedRepositoryUpdating,
         selectedRepositoryError,
         setSelectedRepository
     } = useSelectedRepository()
@@ -28,6 +29,7 @@ export function RepositoriesProvider({ children }: { children: ReactNode }) {
 
             selectedRepository,
             selectedRepositoryLoading,
+            selectedRepositoryUpdating,
             selectedRepositoryError,
             setSelectedRepository
         }}>

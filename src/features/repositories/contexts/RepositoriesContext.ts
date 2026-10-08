@@ -9,6 +9,7 @@ type RepositoriesContextType = {
 
     selectedRepository: GithubRepository | null;
     selectedRepositoryLoading: boolean;
+    selectedRepositoryUpdating: boolean;
     selectedRepositoryError: string | null;
     setSelectedRepository: (selectedRepository: GithubRepository) => Promise<void>;
 }

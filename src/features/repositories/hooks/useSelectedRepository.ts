@@ -6,7 +6,8 @@ import {useAuth} from "@/features/auth/contexts/useAuth.ts";
 
 export function useSelectedRepository() {
     const [repository, setRepository] = useState<GithubRepository | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [updating, setUpdating] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const { authState, authLoading} = useAuth();
@@ -32,17 +33,18 @@ export function useSelectedRepository() {
                 setLoading(false);
             }
         }
+
         void loadSelectedRepository()
     }, [])
 
     useEffect(() => {
-        if (authState.github || authLoading) {
+        if (authState.github || authLoading || loading) {
             return;
         }
 
         async function deleteSelectedRepositoryData() {
             try {
-                setLoading(true);
+                setUpdating(true);
                 setError(null);
 
                 await removeSelectedRepository();
@@ -56,16 +58,16 @@ export function useSelectedRepository() {
                 );
             }
             finally {
-                setLoading(false);
+                setUpdating(false);
             }
         }
 
         void deleteSelectedRepositoryData();
-    }, [authState.github, authLoading]);
+    }, [authState.github, authLoading, loading]);
 
     async function setSelectedRepository(repository: GithubRepository) {
         try {
-            setLoading(true);
+            setUpdating(true);
             setError(null);
 
             await saveSelectedRepository(repository);
@@ -80,13 +82,14 @@ export function useSelectedRepository() {
             );
         }
         finally {
-            setLoading(false);
+            setUpdating(false);
         }
     }
 
     return {
         selectedRepository: repository,
         selectedRepositoryLoading: loading,
+        selectedRepositoryUpdating: updating,
         selectedRepositoryError: error,
         setSelectedRepository
     }
