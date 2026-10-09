@@ -19,6 +19,14 @@ export type BackgroundRequest =
     } |
     {
         type: "GET_LEETCODE_EDITOR_DATA"
+    } |
+    {
+        type: "SYNC_WITH_GITHUB"
+        data: {
+            content: string
+            fileName: string
+            extension: string
+        }
     };
 
 

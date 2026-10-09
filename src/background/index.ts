@@ -32,6 +32,7 @@ async function handleRequest(request: BackgroundRequest, sender: chrome.runtime.
         case "LOGOUT":
             return await authHandler(request);
         case "FETCH_GITHUB_REPOSITORIES":
+        case "SYNC_WITH_GITHUB":
             return await githubHandler(request);
         case "FETCH_LEETCODE_STATS":
         case "GET_LEETCODE_EDITOR_DATA":
