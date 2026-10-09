@@ -9,9 +9,9 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 
 
-chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
-    handleRequest(request)
+    handleRequest(request, sender)
         .then(sendResponse)
         .catch(error => {
             sendResponse({
@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
 })
 
 
-async function handleRequest(request: BackgroundRequest): Promise<BackgroundResponse<unknown>> {
+async function handleRequest(request: BackgroundRequest, sender: chrome.runtime.MessageSender): Promise<BackgroundResponse<unknown>> {
     switch (request.type) {
         case "LOAD_AUTH_STATE":
         case "GITHUB_LOGIN":
@@ -34,6 +34,7 @@ async function handleRequest(request: BackgroundRequest): Promise<BackgroundResp
         case "FETCH_GITHUB_REPOSITORIES":
             return await githubHandler(request);
         case "FETCH_LEETCODE_STATS":
-            return await leetcodeHandler(request);
+        case "GET_LEETCODE_EDITOR_DATA":
+            return await leetcodeHandler(request, sender);
     }
 }

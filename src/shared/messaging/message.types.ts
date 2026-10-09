@@ -16,6 +16,9 @@ export type BackgroundRequest =
     } |
     {
         type: "FETCH_LEETCODE_STATS"
+    } |
+    {
+        type: "GET_LEETCODE_EDITOR_DATA"
     };
 
 
