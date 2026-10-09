@@ -1,25 +1,24 @@
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import { crx } from '@crxjs/vite-plugin'
 import { defineConfig } from 'vite'
-import tailwindcss from "@tailwindcss/vite";
-import { resolve } from "path"
+import { resolve } from 'node:path'
+import manifest from './manifest.json' with { type: 'json' }
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    crx({ manifest }),
+  ],
   resolve: {
     alias: {
-      "@": resolve(__dirname, "./src")
-    }
+      '@': resolve(import.meta.dirname, './src'),
+    },
   },
-  build: {
-    rolldownOptions: {
-      input: {
-        popup: "./index.html",
-        background: "./src/background/index.ts"
-      },
-      output: {
-        entryFileNames: "[name].js"
-      }
-    }
-  }
+  server: {
+    cors: {
+      origin: [/chrome-extension:\/\//],
+    },
+  },
 })

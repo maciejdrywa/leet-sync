@@ -1,0 +1,1 @@
+export { observeSyncButton } from "./mountSyncButton.tsx"
