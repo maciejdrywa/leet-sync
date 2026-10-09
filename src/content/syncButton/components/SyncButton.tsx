@@ -1,10 +1,20 @@
 import {Button} from "@/shared/components/ui/button.tsx";
-import {Upload} from "lucide-react";
+import {Check, LoaderCircle, Upload} from "lucide-react";
+import {useEffect, useState} from "react";
+import {motion, useReducedMotion} from "motion/react";
 import type {BackgroundRequest, BackgroundResponse} from "@/shared/messaging/message.types.ts";
 import type {EditorContent} from "@/features/sync/editor/editor.types.ts";
 
 export default function SyncButton() {
+    const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+    const shouldReduceMotion = useReducedMotion();
 
+    useEffect(() => {
+        if (status !== "success") return;
+
+        const timer = window.setTimeout(() => setStatus("idle"), 2000);
+        return () => window.clearTimeout(timer);
+    }, [status]);
 
     function getProblemTitle(): string {
         const slug = window.location.pathname.split("/")[2];
@@ -26,6 +36,9 @@ export default function SyncButton() {
 
 
     async function handleClick() {
+        if (status === "loading") return;
+
+        setStatus("loading");
         try {
             const response: BackgroundResponse<EditorContent> = await chrome.runtime.sendMessage({
                 type: "GET_LEETCODE_EDITOR_DATA"
@@ -47,20 +60,41 @@ export default function SyncButton() {
             if (!syncResponse.ok) {
                 throw new Error(syncResponse.error);
             }
+
+            setStatus("success");
         } catch (error) {
+            setStatus("idle");
             console.error(error instanceof Error ? error.message : "Failed to sync with GitHub");
         }
     }
 
     return (
-        <div>
+        <motion.div
+            initial={false}
+            animate={{scale: status === "success" && !shouldReduceMotion ? [1, 1.08, 1] : 1}}
+            transition={{duration: 0.35}}
+        >
             <Button
                 onClick={handleClick}
-                className="bg-leetcode/10 border-leetcode text-leetcode transition-all duration-200 hover:bg-leetcode/20 hover:shadow-sm"
+                disabled={status === "loading"}
+                aria-busy={status === "loading"}
+                className={`min-w-40 transition-colors duration-200 hover:shadow-sm ${
+                    status === "success"
+                        ? "bg-green-500/10 border-green-500 text-green-500 hover:bg-green-500/20"
+                        : "bg-leetcode/10 border-leetcode text-leetcode hover:bg-leetcode/20"
+                }`}
             >
-                <Upload />
-                Sync with GitHub
+                {status === "loading" ? (
+                    <LoaderCircle aria-hidden="true" className="animate-spin motion-reduce:animate-none" />
+                ) : status === "success" ? (
+                    <Check aria-hidden="true" />
+                ) : (
+                    <Upload aria-hidden="true" />
+                )}
+                <span aria-live="polite" aria-atomic="true">
+                    {status === "loading" ? "Syncing..." : status === "success" ? "Synced!" : "Sync with GitHub"}
+                </span>
             </Button>
-        </div>
+        </motion.div>
     )
 }
