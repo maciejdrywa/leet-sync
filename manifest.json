@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Leet Sync",
-  "description": "Tool to sync LeetCode solution with your GitHub account",
-  "version": "",
+  "name": "LeetSync - Synchronize LeetCode solutions with GitHub",
+  "short_name": "LeetSync",
+  "description": "Sync your LeetCode solutions directly to your GitHub repository with a single click.",
+  "version": "0.1.0",
 
   "icons": {
     "16": "src/assets/icons/icon16.png",
