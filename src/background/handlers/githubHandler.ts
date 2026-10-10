@@ -1,6 +1,7 @@
 import type {BackgroundRequest, BackgroundResponse} from "../../shared/messaging/message.types.ts";
 import {fetchGithubRepositories} from "../../features/repositories/repositories.service.ts";
 import {syncWithGithub} from "@/features/sync/sync.service.ts";
+import {fetchRecentSync} from "@/features/sync/recentSync.service.ts";
 
 
 export async function githubHandler(request: BackgroundRequest): Promise<BackgroundResponse<unknown>> {
@@ -12,6 +13,14 @@ export async function githubHandler(request: BackgroundRequest): Promise<Backgro
                 ok: true,
                 data: repositories,
             }
+        }
+        case "FETCH_RECENT_SYNC": {
+            const recentSync = await fetchRecentSync(request.data.repositoryFullName);
+
+            return {
+                ok: true,
+                data: recentSync,
+            };
         }
         case "SYNC_WITH_GITHUB": {
             await syncWithGithub(request.data.content, request.data.fileName, request.data.extension);

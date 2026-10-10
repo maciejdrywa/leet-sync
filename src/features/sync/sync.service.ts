@@ -44,7 +44,7 @@ export async function syncWithGithub(content: string, fileName: string, extensio
     const sha = await getFileSha(session.accessToken, requestUrl);
     const bytes = new TextEncoder().encode(content);
     const encodedContent = btoa(Array.from(bytes, byte => String.fromCharCode(byte)).join(""));
-    const commitMessage = `New LeetCode question solved: ${fileName}`;
+    const commitMessage = `${fileName}`;
 
     await githubApiRequest(requestUrl, session.accessToken, {
         method: "PUT",

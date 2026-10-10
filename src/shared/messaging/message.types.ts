@@ -15,6 +15,12 @@ export type BackgroundRequest =
         type: "FETCH_GITHUB_REPOSITORIES"
     } |
     {
+        type: "FETCH_RECENT_SYNC"
+        data: {
+            repositoryFullName: string
+        }
+    } |
+    {
         type: "FETCH_LEETCODE_STATS"
     } |
     {

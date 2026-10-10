@@ -1,8 +1,8 @@
-import {Button} from "@/shared/components/ui/button.tsx";
 import {useRepositories} from "@/features/repositories/contexts/useRepositories.ts";
 import IconRepository from "@/shared/components/icons/IconRepository.tsx";
 import DifficultyCounter from "@/popup/components/DifficultyCounter.tsx";
 import {useLeetStats} from "@/features/leetcodeStats/hooks/useLeetStats.ts";
+import RecentSync from "@/popup/components/RecentSync.tsx";
 
 export function Dashboard() {
     const { selectedRepository } = useRepositories();
@@ -49,31 +49,7 @@ export function Dashboard() {
                 </div>
             </div>
             {/*Recent sync*/}
-            <div className={"flex flex-col items-start gap-1.5 w-full"}>
-                <div className={"flex items-center justify-between px-1 w-full"}>
-                    <div className={"flex flex-col items-start"}>
-                        <p className={"text-app-muted text-xs font-bold uppercase"}>recent sync</p>
-                    </div>
-                    <Button
-                        variant={"link"}
-                        size={"xs"}
-                        className={"text-app-muted text-center font-normal text-xs"}
-                    >
-                        View All
-                    </Button>
-                </div>
-                <div className={"flex flex-col w-full items-start bg-app-surface border border-app-border rounded-lg p-4 gap-1"}>
-                    <div className={"flex items-center justify-between w-full"}>
-                        <div className={"flex flex-col items-start"}>
-                            <p className={"text-app-text text-base font-semibold"}>Two Sum.py</p>
-                        </div>
-                        <p className={"text-app-muted text-xs font-normal"}>2 min ago</p>
-                    </div>
-                    <div className={"flex flex-col items-start"}>
-                        <p className={"text-app-muted text-start text-xs font-normal"}>Committed to main branch</p>
-                    </div>
-                </div>
-            </div>
+            {selectedRepository && <RecentSync repository={selectedRepository} />}
         </div>
     )
 }
