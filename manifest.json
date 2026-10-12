@@ -3,7 +3,7 @@
   "name": "LeetSync - Synchronize LeetCode solutions with GitHub",
   "short_name": "LeetSync",
   "description": "Sync your LeetCode solutions directly to your GitHub repository with a single click.",
-  "version": "0.1.0",
+  "version": "0.1.1",
 
   "icons": {
     "16": "src/assets/icons/icon16.png",
@@ -15,7 +15,6 @@
   "permissions": [
     "storage",
     "identity",
-    "tabs",
     "cookies",
     "scripting"
   ],
