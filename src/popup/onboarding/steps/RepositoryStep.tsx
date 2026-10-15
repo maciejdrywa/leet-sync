@@ -7,6 +7,7 @@ import OnboardingLayout from "@/popup/layouts/OnboardingLayout.tsx";
 import RepositoryComboBox from "@/popup/components/RepositoryComboBox.tsx";
 import {useRepositories} from "@/features/repositories/contexts/useRepositories.ts";
 import {Spinner} from "@/shared/components/ui/spinner.tsx";
+import {NewRepositoryDialog} from "@/popup/components/NewRepositoryDialog.tsx";
 
 
 
@@ -37,11 +38,17 @@ export default function RepositoryStep() {
             currentStep={4}
         >
             {/*Combobox section*/}
-            <RepositoryComboBox
-                repositories={githubRepositories}
-                value={selectedRepository?.fullName ?? ""}
-                onValueChange={setSelectedRepository}
-            />
+            <div className="w-full">
+                <RepositoryComboBox
+                    repositories={githubRepositories}
+                    value={selectedRepository?.fullName ?? ""}
+                    onValueChange={setSelectedRepository}
+                />
+                <div className="flex w-full justify-end items-center">
+                    <NewRepositoryDialog />
+                </div>
+            </div>
+
 
             {/*Button section*/}
             <Button

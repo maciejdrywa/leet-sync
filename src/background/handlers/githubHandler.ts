@@ -1,5 +1,5 @@
 import type {BackgroundRequest, BackgroundResponse} from "../../shared/messaging/message.types.ts";
-import {fetchGithubRepositories} from "../../features/repositories/repositories.service.ts";
+import {createGithubRepository, fetchGithubRepositories} from "../../features/repositories/repositories.service.ts";
 import {syncWithGithub} from "@/features/sync/sync.service.ts";
 import {fetchRecentSync} from "@/features/sync/recentSync.service.ts";
 import {getLeetStats} from "@/features/leetcodeStats/leetStats.service.ts";
@@ -7,13 +7,21 @@ import {getLeetStats} from "@/features/leetcodeStats/leetStats.service.ts";
 
 export async function githubHandler(request: BackgroundRequest): Promise<BackgroundResponse<unknown>> {
     switch (request.type) {
+        case "CREATE_GITHUB_REPOSITORY": {
+            const repository = await createGithubRepository(request.data);
+
+            return {
+                ok: true,
+                data: repository
+            };
+        }
         case "FETCH_GITHUB_REPOSITORIES": {
             const repositories = await fetchGithubRepositories();
 
             return {
                 ok: true,
                 data: repositories,
-            }
+            };
         }
         case "FETCH_RECENT_SYNC": {
             const recentSync = await fetchRecentSync(request.data.repositoryFullName);

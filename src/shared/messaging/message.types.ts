@@ -15,6 +15,13 @@ export type BackgroundRequest =
         type: "FETCH_GITHUB_REPOSITORIES"
     } |
     {
+        type: "CREATE_GITHUB_REPOSITORY",
+        data: {
+            name: string
+            isPublic: boolean
+        }
+    } |
+    {
         type: "FETCH_RECENT_SYNC"
         data: {
             repositoryFullName: string

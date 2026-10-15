@@ -1,5 +1,5 @@
 import {getValidGithubSession} from "../auth/github/githubSession.service.ts";
-import {githubApiRequest} from "../../infrastructure/github/githubApi.client.ts";
+import {githubApiRequest} from "@/infrastructure/github/githubApi.client.ts";
 import type {GithubRepository} from "./repositories.types.ts";
 
 type GithubRepositoryResponse = {
@@ -28,4 +28,37 @@ export async function fetchGithubRepositories(): Promise<GithubRepository[]> {
             name: repo.name,
             fullName: repo.full_name,
         }))
+}
+
+
+export async function createGithubRepository({name, isPublic}: {name: string; isPublic: boolean}): Promise<GithubRepository> {
+    const repositoryName = name.trim();
+    if (!repositoryName) {
+        throw new Error("Repository name is required");
+    }
+
+    const session = await getValidGithubSession();
+
+    if (!session) {
+        throw new Error("User is not authenticated");
+    }
+
+    const response = await githubApiRequest<GithubRepositoryResponse>("/user/repos", session.accessToken, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            name: repositoryName,
+            private: !isPublic,
+        })
+    });
+
+    if (!response) {
+        throw new Error("Failed to create Github Repositories");
+    }
+
+    return {
+        id: response.id,
+        name: response.name,
+        fullName: response.full_name,
+    }
 }

@@ -70,6 +70,7 @@ async function handleRequest(request: BackgroundRequest, sender: chrome.runtime.
         case "LOGOUT":
             return await authHandler(request);
         case "FETCH_GITHUB_REPOSITORIES":
+        case "CREATE_GITHUB_REPOSITORY":
         case "FETCH_RECENT_SYNC":
         case "SYNC_WITH_GITHUB":
             return await githubHandler(request);
